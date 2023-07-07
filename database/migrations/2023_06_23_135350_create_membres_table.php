@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->string('email');
+            $table->unsignedBigInteger('idmembre');
+            $table->foreign('idmembre')->references('id')->on('membres');
         });
     }
 

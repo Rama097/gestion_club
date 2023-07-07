@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('clubs', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->unsignedBigInteger('idmembre');
-            $table->foreign('idmembre')->references('id')->on('membres');
+           
 
             $table->timestamps();
         });

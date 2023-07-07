@@ -12,7 +12,8 @@ class MembreController extends Controller
      */
     public function index()
     {
-        //
+        $membres = Membre::all();
+        return view('membres.index', compact('membres'));
     }
 
     /**
@@ -20,7 +21,7 @@ class MembreController extends Controller
      */
     public function create()
     {
-        //
+        return view('membres.create');
     }
 
     /**
@@ -28,23 +29,31 @@ class MembreController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'nom' => 'required',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
+        Membre::create($request->all());
+
+        return redirect()->route('membres.index')->with('success', 'Membre créé avec succès.');
+    }
+    
+
+    /*
+      Display the specified resource.
+     
     public function show(Membre $membre)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
+   
+     Show the form for editing the specified resource.
      */
     public function edit(Membre $membre)
     {
-        //
+        return view('membres.edit', compact('membre')); 
+        
     }
 
     /**
@@ -52,14 +61,23 @@ class MembreController extends Controller
      */
     public function update(Request $request, Membre $membre)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+        ]);
+
+        $membre->update($request->all());
+
+        return redirect()->route('membres.index')->with('success', 'Membre mis à jour avec succès.');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Membre $membre)
     {
-        //
+        $membre->delete();
+
+        return redirect()->route('membres.index')->with('success', 'Membre supprimé avec succès.');
     }
 }

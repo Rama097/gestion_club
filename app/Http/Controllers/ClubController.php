@@ -12,7 +12,8 @@ class ClubController extends Controller
      */
     public function index()
     {
-        //
+        $clubs = Club::all();
+        return view('clubs.index', compact('clubs'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ClubController extends Controller
      */
     public function create()
     {
-        //
+        return view('clubs.create');
     }
 
     /**
@@ -28,7 +29,13 @@ class ClubController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+        ]);
+
+        Club::create($request->all());
+
+        return redirect()->route('clubs.index')->with('success','Club créé avec succès.');
     }
 
     /**
@@ -44,7 +51,7 @@ class ClubController extends Controller
      */
     public function edit(Club $club)
     {
-        //
+        return view('clubs.edit', compact('club'));
     }
 
     /**
@@ -52,14 +59,22 @@ class ClubController extends Controller
      */
     public function update(Request $request, Club $club)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+        ]);
+
+        $club->update($request->all());
+
+        return redirect()->route('clubs.index')->with('success','Club mis à jour avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Club $club)
+    public function destroy($id)
     {
-        //
+        Club::find($id)->delete();
+
+        return redirect()->back()->with('success'. 'Club suppremé avec succès');
     }
 }

@@ -12,7 +12,8 @@ class ActiviteController extends Controller
      */
     public function index()
     {
-        //
+        $activites = Activite::all();
+        return view('activites.index', compact('activites'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ActiviteController extends Controller
      */
     public function create()
     {
-        //
+        return view('activites.create');
     }
 
     /**
@@ -28,12 +29,18 @@ class ActiviteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+        ]);
+
+        Activite::create($request->all());
+
+        return redirect()->route('activites.index')->with('success', 'Activites créé avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    /*
+     Display the specified resource.
+     
     public function show(Activite $activite)
     {
         //
@@ -44,7 +51,7 @@ class ActiviteController extends Controller
      */
     public function edit(Activite $activite)
     {
-        //
+        return view('activites.edit', compact('activite'));
     }
 
     /**
@@ -52,7 +59,13 @@ class ActiviteController extends Controller
      */
     public function update(Request $request, Activite $activite)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+        ]);
+
+        $activite->update($request->all());
+
+        return redirect()->route('activites.index')->with('success', 'Activites mis à jour avec succès.');
     }
 
     /**
@@ -60,6 +73,8 @@ class ActiviteController extends Controller
      */
     public function destroy(Activite $activite)
     {
-        //
+        $activite->delete();
+
+        return redirect()->route('clubs.index')->with('success', 'Club supprimé avec succès.');
     }
 }
